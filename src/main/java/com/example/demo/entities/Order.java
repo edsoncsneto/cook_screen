@@ -10,7 +10,10 @@ import com.example.demo.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,25 +35,28 @@ public class Order implements Serializable{
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 	
-	private Integer orderStatus;
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Client client;
 	
-	@OneToMany(mappedBy = "id.order")
+	@OneToMany(mappedBy = "order")
 	private Set<OrderItem> items = new HashSet<>();
 	
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 	
-	private Order() {
+	@Column(name = "total_price")
+	private double totalPrice;
+	
+	public Order () {
 	}
 
-	public Order(Long id, Instant moment, OrderStatus orderStatus, Client client) {
-		this.id = id;
+	public Order(Instant moment, Client client) {
 		this.moment = moment;
-		setOrderStatus(orderStatus);
+		this.orderStatus = OrderStatus.WAITING_PAYMENT;
 		this.client = client;
 	}
 	
@@ -71,11 +77,11 @@ public class Order implements Serializable{
 	}
 
 	public OrderStatus getOrderStatus() {
-		return OrderStatus.valueOf(orderStatus);
+		return orderStatus;
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
-		if (orderStatus != null) this.orderStatus = orderStatus.getCode();
+		this.orderStatus = orderStatus;
 	}
 
 	public Client getClient() {

@@ -36,7 +36,7 @@ public class ProductResource {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Object> findByEntity(@PathVariable Long id){
+	public ResponseEntity<Object> findById(@PathVariable Long id){
 		Optional<Product> productOpt = productService.findById(id);
 		if (productOpt.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");

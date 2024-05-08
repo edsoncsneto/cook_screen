@@ -9,6 +9,8 @@ import com.example.demo.entities.enums.ProductCategories;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,9 +29,11 @@ public class Product implements Serializable{
 	private String description;
 	private Double price;
 	private String imgUrl;
-	private Integer category;
 	
-	@OneToMany(mappedBy = "id.product")
+	@Enumerated(EnumType.STRING)
+	private ProductCategories category;
+	
+	@OneToMany(mappedBy = "product")
 	private Set<OrderItem> items = new HashSet<>();
 	
 	public Product() {
@@ -41,7 +45,7 @@ public class Product implements Serializable{
 		this.description = description;
 		this.price = price;
 		this.imgUrl = imgUrl;
-		setCategory(category);
+		this.category = category;
 	}
 
 	public Long getId() {
@@ -83,15 +87,15 @@ public class Product implements Serializable{
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
+	
+	public ProductCategories getCategory() {
+		return category;
+	}
 
-	public ProductCategories getProductCategories() {
-		return ProductCategories.valueOf(category);
-	}
-	
 	public void setCategory(ProductCategories category) {
-		if (category != null) this.category = category.getCode();
+		this.category = category;
 	}
-	
+
 	@JsonIgnore
 	public Set<Order> getOrders() {
 		Set<Order> set = new HashSet<>();
