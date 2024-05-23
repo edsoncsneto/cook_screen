@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entities.OrderItem;
 import com.example.demo.repositories.OrderItemRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class OrderItemService {
 
@@ -26,4 +28,10 @@ public class OrderItemService {
 	public Optional<OrderItem> findById(Long id){
 		return oiRepository.findById(id);
 	}
+	
+	@Transactional
+	public void delete(OrderItem oi) {
+		oiRepository.delete(oi);
+	}
+	
 }

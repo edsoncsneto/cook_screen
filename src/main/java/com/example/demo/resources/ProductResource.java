@@ -22,6 +22,13 @@ import com.example.demo.services.ProductService;
 
 import jakarta.validation.Valid;
 
+/*findAll
+ *findById
+ *delete
+ *save
+ *update
+ */
+
 @RestController
 @RequestMapping(value = "/products")
 public class ProductResource {

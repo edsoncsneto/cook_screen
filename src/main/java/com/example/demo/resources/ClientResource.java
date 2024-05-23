@@ -29,7 +29,6 @@ public class ClientResource {
 
 	@GetMapping
 	public ResponseEntity<List<Client>> findAll() {
-		//resource/controller acessa o repository apenas por meio do service
 		List<Client> list = clientService.findAll();
 		return ResponseEntity.ok().body(list);
 	}

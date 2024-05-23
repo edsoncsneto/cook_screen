@@ -24,6 +24,12 @@ import com.example.demo.services.OrderService;
 
 import jakarta.validation.Valid;
 
+/*findAll
+ *findById
+ *save: receives a ClientDTO
+ *addItem: receives a OrderItemDto (quantity of product, orderId, productId)
+ */
+
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderResource {
