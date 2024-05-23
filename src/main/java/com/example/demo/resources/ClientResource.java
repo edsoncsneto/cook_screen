@@ -1,7 +1,6 @@
 package com.example.demo.resources;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities.Client;
 import com.example.demo.entities.dtos.ClientDto;
 import com.example.demo.services.ClientService;
+import com.example.demo.services.exceptions.ResourceNotFoundException;
 
 import jakarta.validation.Valid;
 
@@ -33,13 +34,15 @@ public class ClientResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	//TODO: PRIORIDADE: deixar a estrutura de todos os resources da seguinte maneira (há mudanças no service)
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Object> findById(@PathVariable Long id){
-		Optional<Client> clientOpt = clientService.findById(id);
-		if (clientOpt.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client not found.");
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(clientService.findById(id));
+	public ResponseEntity<Client> findById(@PathVariable Long id){
+		try {
+            Client client = clientService.findById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(client);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
 	}
 	
 	@PostMapping
@@ -47,6 +50,18 @@ public class ClientResource {
 		Client client = new Client();
 		BeanUtils.copyProperties(clientDto, client);
 		return ResponseEntity.status(HttpStatus.CREATED).body(clientService.save(client));
+	}
+	
+	@PutMapping("/{id}")	
+	public ResponseEntity<Client> update(@PathVariable(value="id") Long id, @RequestBody @Valid ClientDto clientDto){
+		try {
+			Client client = clientService.findById(id);
+			client.setPhone(clientDto.phone());
+			client.setName(clientDto.name());
+			return ResponseEntity.status(HttpStatus.OK).body(clientService.save(client));
+		} catch (ResourceNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 
 }

@@ -78,7 +78,6 @@ public class OrderItemResource {
 	}
 	
 	@PutMapping("/{id}")
-	//TODO: update price on orderItem
 	public ResponseEntity<Object> update(@PathVariable(value="id") Long id, @RequestBody @Valid OrderItemDto oiDto){
 		Optional<OrderItem> oiOpt = oiService.findById(id);
 		if(oiOpt.isEmpty()) {
