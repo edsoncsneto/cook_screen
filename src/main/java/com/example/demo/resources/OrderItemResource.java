@@ -87,7 +87,8 @@ public class OrderItemResource {
 		OrderItem oi = oiOpt.get();
 		oi.setProduct(productService.findById(oiDto.productId()).get());
 		oi.setQuantity(oiDto.quantity());
-		
+		oi.setPrice(oi.getSubTotal());
+	
 		return ResponseEntity.status(HttpStatus.OK).body(oiService.save(oi));
 	}
 	
