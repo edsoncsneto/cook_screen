@@ -56,7 +56,7 @@ public class Order implements Serializable{
 
 	public Order(Instant moment, Client client) {
 		this.moment = moment;
-		this.orderStatus = OrderStatus.WAITING_PAYMENT;
+		this.orderStatus = OrderStatus.PREPARING;
 		this.client = client;
 	}
 	
@@ -107,7 +107,7 @@ public class Order implements Serializable{
 	public Double getTotal() {
 		double total = 0.0;
 		for (OrderItem item:items) {
-			total += item.getSubTotal();
+			total += item.getPrice();
 		}
 		return total;
 	}

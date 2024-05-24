@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities.Product;
 import com.example.demo.entities.dtos.ProductDto;
 import com.example.demo.services.ProductService;
+import com.example.demo.services.exceptions.ResourceNotFoundException;
 
 import jakarta.validation.Valid;
 
@@ -44,21 +45,14 @@ public class ProductResource {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Object> findById(@PathVariable Long id){
-		Optional<Product> productOpt = productService.findById(id);
-		if (productOpt.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(productService.findById(id).get());		
+		Product product = productService.findById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(product);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Object> delete(@PathVariable(value="id") Long id){
-		Optional<Product> productOpt = productService.findById(id);
-		if (productOpt.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found.");
-		}
-		productService.delete(productOpt.get());
-		return ResponseEntity.status(HttpStatus.OK).body("Product deleted successfully.");
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		productService.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PostMapping
@@ -70,18 +64,9 @@ public class ProductResource {
 	
 	@PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable(value="id") Long id, @RequestBody @Valid ProductDto productDto){
-        Optional<Product> productOpt = productService.findById(id);
-        if(productOpt.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found.");
-        }
-        Product product = productOpt.get();
-        product.setName(productDto.name());
-        product.setDescription(productDto.description());
-        product.setPrice(productDto.price());
-        product.setImgUrl(productDto.imgUrl());
-        product.setCategory(productDto.category());
-
-        return ResponseEntity.status(HttpStatus.OK).body(productService.save(product));
-    }
-
+        Product product = new Product();
+        BeanUtils.copyProperties(productDto, product);
+        product = productService.update(id, product);
+        return ResponseEntity.status(HttpStatus.OK).body(product);
+	}
 }
