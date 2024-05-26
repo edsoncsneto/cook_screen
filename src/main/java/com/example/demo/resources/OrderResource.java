@@ -23,7 +23,6 @@ import com.example.demo.entities.dtos.OrderItemDto;
 import com.example.demo.services.ClientService;
 import com.example.demo.services.OrderItemService;
 import com.example.demo.services.OrderService;
-import com.example.demo.services.ProductService;
 
 import jakarta.validation.Valid;
 
@@ -46,9 +45,6 @@ public class OrderResource {
 	
 	@Autowired
 	private ClientService clientService;
-	
-	@Autowired
-	private ProductService productService;
 	
 	@Autowired
 	private OrderItemService oiService;

@@ -1,7 +1,6 @@
 package com.example.demo.resources;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities.Product;
 import com.example.demo.entities.dtos.ProductDto;
 import com.example.demo.services.ProductService;
-import com.example.demo.services.exceptions.ResourceNotFoundException;
 
 import jakarta.validation.Valid;
 
