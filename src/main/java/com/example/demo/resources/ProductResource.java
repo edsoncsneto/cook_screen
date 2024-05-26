@@ -66,7 +66,6 @@ public class ProductResource {
     public ResponseEntity<Object> update(@PathVariable(value="id") Long id, @RequestBody @Valid ProductDto productDto){
         Product product = new Product();
         BeanUtils.copyProperties(productDto, product);
-        product = productService.update(id, product);
-        return ResponseEntity.status(HttpStatus.OK).body(product);
+        return ResponseEntity.status(HttpStatus.OK).body(productService.update(id, product));
 	}
 }

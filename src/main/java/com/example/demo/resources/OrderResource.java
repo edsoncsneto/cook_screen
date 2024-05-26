@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Order;
 import com.example.demo.entities.OrderItem;
+import com.example.demo.entities.Payment;
 import com.example.demo.entities.dtos.ClientDto;
 import com.example.demo.entities.dtos.OrderItemDto;
 import com.example.demo.services.ClientService;
@@ -30,6 +32,9 @@ import jakarta.validation.Valid;
  *save: receives a ClientDTO
  *addItem: receives a OrderItemDto (quantity, orderId, productId)
  *delete
+ *registerPayment
+ *cancelOrder
+ *updateOrder
  */
 
 @RestController
@@ -76,6 +81,21 @@ public class OrderResource {
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		orderService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping(value = "{orderId}/registerPayment")
+	public ResponseEntity<Payment> registerPayment(@PathVariable Long orderId) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.registerPayment(orderService.findById(orderId)));
+	}
+	
+	@PutMapping(value = "{orderId}/updateStatus")
+	public ResponseEntity<Order> updateStatus(@PathVariable Long orderId) {
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.updateStatus(orderId));
+	}
+	
+	@PutMapping(value = "{orderId}/cancelOrder")
+	public ResponseEntity<Order> cancelOrder(@PathVariable Long orderId) {
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.cancelOrder(orderId));
 	}
 	
 }

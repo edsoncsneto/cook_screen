@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Order;
+import com.example.demo.entities.Payment;
+import com.example.demo.entities.enums.OrderStatus;
 import com.example.demo.repositories.OrderRepository;
+import com.example.demo.repositories.PaymentRepository;
+import com.example.demo.services.exceptions.BusinessRuleException;
 import com.example.demo.services.exceptions.DatabaseException;
 import com.example.demo.services.exceptions.ResourceNotFoundException;
 
@@ -19,6 +24,9 @@ public class OrderService {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
 	
 	public List<Order> findAll(){
 		return orderRepository.findAll();
@@ -52,8 +60,14 @@ public class OrderService {
 	public Order updateStatus(Long id) {
 		try {
 			Order entity = orderRepository.getOne(id);
-			entity.getOrderStatus().nextStatus();
+			if (entity.getOrderStatus() == OrderStatus.DELIVERED) {
+				throw new BusinessRuleException("It is not possible to update status from DELIVERED to PAID handly!");
+			} else if (entity.getOrderStatus() == OrderStatus.PAID || entity.getOrderStatus() == OrderStatus.CANCELED){
+				throw new BusinessRuleException("This order is completed!");
+			}
+			entity.setOrderStatus(entity.getOrderStatus().nextStatus());
 			return orderRepository.save(entity);
+			
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
@@ -62,11 +76,24 @@ public class OrderService {
 	public Order cancelOrder(Long id) {
 		try {
 			Order entity = orderRepository.getOne(id);
-			entity.getOrderStatus().cancelOrder();
+			if (entity.getOrderStatus() == OrderStatus.PAID || entity.getOrderStatus() == OrderStatus.CANCELED){
+				throw new BusinessRuleException("This order is completed!");
+			}
+			entity.setOrderStatus(entity.getOrderStatus().cancelOrder());
 			return orderRepository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
+	}
+	
+	public Payment registerPayment (Order order) {
+		if (order.getOrderStatus() == OrderStatus.PAID || order.getOrderStatus() == OrderStatus.CANCELED) {
+			throw new BusinessRuleException("This order is completed!");
+		}
+		Payment payment = new Payment(Instant.now(), order);
+		order.setOrderStatus(OrderStatus.PAID);
+		//setting status to paid
+		return paymentRepository.save(payment);
 	}
 	
 }

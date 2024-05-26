@@ -14,6 +14,8 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+//TODO: payment logic
+
 @Entity
 @Table(name = "tb_payment")
 public class Payment implements Serializable{
@@ -32,8 +34,7 @@ public class Payment implements Serializable{
 	public Payment() {
 	}
 
-	public Payment(Long id, Instant moment, Order order) {
-		this.id = id;
+	public Payment(Instant moment, Order order) {
 		this.moment = moment;
 		this.order = order;
 	}

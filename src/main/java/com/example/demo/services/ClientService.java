@@ -61,7 +61,7 @@ public class ClientService {
 		entity.setName(client.getName());
 		entity.setPhone(client.getPhone());
 	}
-	//TODO: verificar exceção de integridade
+	
 	public Client getOrCreateClientByPhone(ClientDto clientDto) {
 		Optional<Client> clientOpt = clientRepository.findByPhone(clientDto.phone());
 		if (clientOpt.isEmpty()) {

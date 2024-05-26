@@ -8,13 +8,12 @@ public enum OrderStatus {
 	PAID,
 	CANCELED;
 	
+	//Is not possible to advande from paid to canceled
 	public OrderStatus nextStatus() {
-		//Is not possible to advande from delivered to canceled
-		if (this.ordinal() < OrderStatus.values().length-2) {
-			return OrderStatus.values()[this.ordinal()+1];
-		} else {
+		if (this == PAID || this == CANCELED) {
 			return this;
 		}
+		return OrderStatus.values()[this.ordinal()+1];	
 	}
 	
 	public OrderStatus cancelOrder() {
