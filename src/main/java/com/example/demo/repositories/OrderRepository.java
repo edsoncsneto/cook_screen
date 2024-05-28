@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entities.Order;
+import com.example.demo.model.entities.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     

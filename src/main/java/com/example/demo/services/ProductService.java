@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entities.Product;
+import com.example.demo.exceptions.DatabaseException;
+import com.example.demo.exceptions.ResourceNotFoundException;
+import com.example.demo.model.entities.Product;
 import com.example.demo.repositories.ProductRepository;
-import com.example.demo.services.exceptions.DatabaseException;
-import com.example.demo.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 

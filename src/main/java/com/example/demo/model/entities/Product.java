@@ -1,11 +1,11 @@
-package com.example.demo.entities;
+package com.example.demo.model.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.example.demo.entities.enums.ProductCategories;
+import com.example.demo.model.enums.ProductCategories;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;

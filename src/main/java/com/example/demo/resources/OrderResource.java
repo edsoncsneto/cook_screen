@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entities.Order;
-import com.example.demo.entities.OrderItem;
-import com.example.demo.entities.Payment;
-import com.example.demo.entities.dtos.ClientDto;
-import com.example.demo.entities.dtos.OrderItemDto;
+import com.example.demo.model.dtos.ClientDto;
+import com.example.demo.model.dtos.OrderItemDto;
+import com.example.demo.model.entities.Order;
+import com.example.demo.model.entities.OrderItem;
+import com.example.demo.model.entities.Payment;
 import com.example.demo.services.ClientService;
 import com.example.demo.services.OrderItemService;
 import com.example.demo.services.OrderService;

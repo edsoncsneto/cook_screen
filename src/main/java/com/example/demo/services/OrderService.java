@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entities.Order;
-import com.example.demo.entities.Payment;
-import com.example.demo.entities.enums.OrderStatus;
+import com.example.demo.exceptions.BusinessRuleException;
+import com.example.demo.exceptions.DatabaseException;
+import com.example.demo.exceptions.ResourceNotFoundException;
+import com.example.demo.model.entities.Order;
+import com.example.demo.model.entities.Payment;
+import com.example.demo.model.enums.OrderStatus;
 import com.example.demo.repositories.OrderRepository;
 import com.example.demo.repositories.PaymentRepository;
-import com.example.demo.services.exceptions.BusinessRuleException;
-import com.example.demo.services.exceptions.DatabaseException;
-import com.example.demo.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 

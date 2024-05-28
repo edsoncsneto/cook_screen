@@ -1,6 +1,6 @@
-package com.example.demo.entities.dtos;
+package com.example.demo.model.dtos;
 
-import com.example.demo.entities.enums.ProductCategories;
+import com.example.demo.model.enums.ProductCategories;
 
 import jakarta.validation.constraints.NotNull;
 

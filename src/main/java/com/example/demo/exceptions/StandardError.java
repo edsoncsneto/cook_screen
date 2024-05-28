@@ -1,4 +1,4 @@
-package com.example.demo.resources.exceptions;
+package com.example.demo.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;
