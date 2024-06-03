@@ -14,8 +14,6 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-//TODO: payment logic
-
 @Entity
 @Table(name = "tb_payment")
 public class Payment implements Serializable{
