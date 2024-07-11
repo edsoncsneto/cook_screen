@@ -1,1 +1,1 @@
-API para organização de pedidos de restaurantes e similares. Para acessar a documentação: http://localhost:(porta em que a aplicação está rodando)/swagger-ui/index.html. Obs.: por padrão, aplicações Spring Boot rodam na porta 8080.
+API para organização de pedidos de restaurantes e similares. Para acessar a documentação: http://localhost: (porta em que a aplicação está rodando) /swagger-ui/index.html. Obs.: por padrão, aplicações Spring Boot rodam na porta 8080.
