@@ -19,6 +19,8 @@ import com.example.demo.model.dtos.ProductDto;
 import com.example.demo.model.entities.Product;
 import com.example.demo.services.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 /*findAll
@@ -30,23 +32,27 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/products")
+@Tag(name = "Ações de produto")
 public class ProductResource {
 	
 	@Autowired
 	private ProductService productService;
 
 	@GetMapping
+	@Operation(description = "Retorna todos os produtos")
 	public ResponseEntity<List<Product>> findAll() {
 		List<Product> list = productService.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
+	@Operation(description = "Retorna um produto pelo ID")
 	public ResponseEntity<Object> findById(@PathVariable Long id){
 		Product product = productService.findById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(product);
 	}
 	
+	@Operation(description = "Deleta um produto pelo ID")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		productService.delete(id);
@@ -54,6 +60,7 @@ public class ProductResource {
 	}
 	
 	@PostMapping
+	@Operation(description = "Salva um produto")
     public ResponseEntity<Object> save(@RequestBody @Valid ProductDto productDto){
         Product product = new Product();
         BeanUtils.copyProperties(productDto, product);
@@ -61,6 +68,7 @@ public class ProductResource {
     }
 	
 	@PutMapping("/{id}")
+	@Operation(description = "Atualiza um produto")
     public ResponseEntity<Object> update(@PathVariable(value="id") Long id, @RequestBody @Valid ProductDto productDto){
         Product product = new Product();
         BeanUtils.copyProperties(productDto, product);
